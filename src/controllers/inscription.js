@@ -1,16 +1,20 @@
 const { body, validationResult } = require("express-validator/check");
-const { MongoClient } = require("mongodb");
 const passwordHash = require("password-hash");
+const User = require("./model/User");
 
-const checkLogin = () => {
-	console.log("test");
+const checkInscription = () => {
 	return [
-		body("login", "nom d'utilisateur invalide").isLength({ min: 3 }),
+		body("login", "nom d'utilisateur invalide").custom(value => {
+			if (value.length <= 3) {
+				return new Promise.reject("invalidUsername");
+			}
+			
+		}),
 		body("password", "mot de passe invalide").isLength({ min: 3 })
 	];
 };
 
-const loginController = (req, res) => {
+const inscriptionController = (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		const errorList = errors.array();
@@ -50,4 +54,4 @@ const loginController = (req, res) => {
 	}
 };
 
-module.exports = { checkLogin, loginController };
+module.exports = { checkInscription, inscriptionController };

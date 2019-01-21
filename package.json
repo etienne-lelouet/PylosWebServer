@@ -4,7 +4,8 @@
   "description": "Webserver of the Pylos game by slipsoft",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,14 @@
   "homepage": "https://github.com/etienne-lelouet/PylosWebServer#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.12",
+    "mongoose": "^5.4.5",
+    "nodemon": "^1.18.9",
+    "password-hash": "^1.2.2"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
