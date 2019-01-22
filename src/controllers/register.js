@@ -8,7 +8,7 @@ const checkRegister = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
-				if (value.length <= 3) {
+				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDLOGIN);
 				}
 				return User.findOne({ login: value }).then((user) => {
@@ -23,7 +23,7 @@ const checkRegister = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value, { req }) => {
-				if (value.length <= 3) {
+				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDPASSWORD);
 				}
 				if (value !== req.body.passwordConfirmation) {
@@ -37,8 +37,8 @@ const checkRegister = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
-				if (value.length <= 3) {
-					return Promise.reject(process.env.INVALIDPASSWORD);
+				if (!value || value.length <= 3) {
+					return Promise.reject(process.env.INVALIDUSERNAME);
 				}
 				return true;
 			}
@@ -52,7 +52,6 @@ const registerController = (req, res) => {
 			throw new Error("No connection to DB");
 		}
 		const errors = validationResult(req);
-		console.log(errors.array());
 		if (!errors.isEmpty()) {
 			return res.status(400).json({
 				errors: errors.array().map(({ param, msg }) => ({ type: "param", param, msg }))
