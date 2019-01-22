@@ -1,11 +1,29 @@
-const { body, validationResult } = require("express-validator/check");
+const { checkSchema, validationResult } = require("express-validator/check");
 const mongoose = require("mongoose");
 const User = require("../model/User");
 
-const checkLogin = () => [
-	body("login", process.env.INVALIDLOGIN).isLength({ min: 3 }),
-	body("password", process.env.INVALIDPASSWORD).isLength({ min: 3 })
-];
+const checkLogin = () => checkSchema({
+	login: {
+		in: [ "body" ],
+		custom: {
+			options: (value) => {
+				if (value.length <= 3) {
+					return Promise.reject(process.env.INVALIDLOGIN);
+				}
+			}
+		}
+	},
+	password: {
+		in: [ "body" ],
+		custom: {
+			options: (value) => {
+				if (value.length <= 3) {
+					return Promise.reject(process.env.INVALIDPASSWORD);
+				}
+			}
+		}
+	}
+});
 
 const loginController = (req, res) => {
 	try {
