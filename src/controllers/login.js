@@ -7,7 +7,7 @@ const checkLogin = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
-				if (value.length <= 3) {
+				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDLOGIN);
 				}
 			}
@@ -17,7 +17,7 @@ const checkLogin = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
-				if (value.length <= 3) {
+				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDPASSWORD);
 				}
 			}
