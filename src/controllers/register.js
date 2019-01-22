@@ -13,7 +13,6 @@ const checkRegister = () => checkSchema({
 				}
 				return User.findOne({ login: value }).then((user) => {
 					if (user) {
-						console.log("test");
 						return Promise.reject(process.env.LOGININUSE);
 					}
 				});

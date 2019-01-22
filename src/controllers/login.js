@@ -10,6 +10,7 @@ const checkLogin = () => checkSchema({
 				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDLOGIN);
 				}
+				return true;
 			}
 		}
 	},
@@ -20,6 +21,7 @@ const checkLogin = () => checkSchema({
 				if (!value || value.length <= 3) {
 					return Promise.reject(process.env.INVALIDPASSWORD);
 				}
+				return true;
 			}
 		}
 	}
