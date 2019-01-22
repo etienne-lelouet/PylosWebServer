@@ -1,14 +1,10 @@
 const { Router } = require("express");
 const { checkLogin, loginController } = require("./controllers/login");
-const { checkInscription, inscriptionController } = require("./controllers/inscription");
+const { checkRegister, registerController } = require("./controllers/register");
 
 const router = Router();
 
-router.get("/api/test", (req, res) => {
-	console.log("test");
-	res.status(200).send("ok");
-});
 router.post("/api/login", checkLogin(), loginController);
-router.post("/api/inscription", checkInscription(), inscriptionController);
+router.post("/api/register", checkRegister(), registerController);
 
 module.exports = router;

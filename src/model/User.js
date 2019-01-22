@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const passwordHash = require("password-hash");
-require("dotenv").config();
-
 
 const userSchema = mongoose.Schema({
 	login: {
@@ -16,10 +14,14 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	userName: {
+	username: {
 		type: String,
 		trim: true,
 		require: true
+	},
+	dateCreation: {
+		type: Date,
+		default: Date.now()
 	}
 });
 
@@ -28,7 +30,7 @@ userSchema.methods = {
 		return passwordHash.verify(password, this.password);
 	},
 	getToken() {
-		return jwt.sign({ email: this.email }, process.env.jwToken, { expiresIn: 3600 });
+		return jwt.sign({ login: this.login }, process.env.JWTSECRET, { expiresIn: "1d" });
 	}
 };
 
