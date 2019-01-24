@@ -82,7 +82,6 @@ const checkGameRegister = () => checkSchema({
 
 const gameRegisterController = (req, res) => {
 	try {
-		console.log(req.body);
 		if (mongoose.connection.readyState === 0) {
 			throw new Error("No connection to DB");
 		}
