@@ -30,5 +30,5 @@ mongoose.connect(process.env.BDDCONNSTRING, { useNewUrlParser: true }).catch((e)
 app.use(routes);
 
 app.listen(8000, () => {
-	console.log("listening on port 8080");
+	console.log("listening on port 8000");
 });

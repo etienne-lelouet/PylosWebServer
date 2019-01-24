@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const gameSchema = mongoose.Schema({
-	loginPlayerA: {
+	loginPlayerWhite: {
 		type: String,
 		lowercase: true,
 		trim: true,
 		required: true
 	},
-	loginPlayerB: {
+	loginPlayerBlack: {
 		type: String,
 		lowercase: true,
 		trim: true,
@@ -32,9 +32,10 @@ const gameSchema = mongoose.Schema({
 		default: Date.now()
 	},
 	moveList: [ {
-		playerLogin: String,
 		pawnColor: String,
-		pawnPosition: String
+		pawnPositionX: Number,
+		pawnPositionY: Number,
+		pawnHeight: Number
 	} ]
 });
 
