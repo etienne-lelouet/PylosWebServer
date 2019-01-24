@@ -22,6 +22,22 @@ const userSchema = mongoose.Schema({
 	dateCreation: {
 		type: Date,
 		default: Date.now()
+	},
+	score: {
+		type: Number,
+		required: true
+	},
+	nbParties: {
+		type: Number,
+		requried: true
+	},
+	nbVictoires: {
+		type: Number,
+		requried: true
+	},
+	nbDefaites: {
+		type: Number,
+		requried: true
 	}
 });
 
