@@ -76,7 +76,7 @@ const checkGameRegister = () => checkSchema({
 			options: (value) => {
 				const valueAsArray = JSON.parse(value);
 				console.log(valueAsArray);
-				valueAsArray.foreach((move) => {
+				valueAsArray.forEach((move) => {
 					console.log(move);
 				});
 			}
