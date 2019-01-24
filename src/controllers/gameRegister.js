@@ -39,7 +39,6 @@ const checkGameRegister = () => checkSchema({
 		custom: {
 			options: (value, { req }) => {
 				if (!value) {
-					console.log("icic");
 					return Promise.reject(process.env.UNAVAILABLEDATA);
 				}
 				if (value !== req.body.loginPlayerBlack && value !== req.body.loginPlayerWhite) {
@@ -75,7 +74,9 @@ const checkGameRegister = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
-				console.log(value);
+				value.foreach((move) => {
+					console.log(move);
+				});
 			}
 		}
 	}
