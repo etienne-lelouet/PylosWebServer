@@ -11,12 +11,12 @@ const playerInfoController = (req, res) => {
 			jwt.verify(req.headers.authorization, process.env.JWTSECRET, (error, decoded) => {
 				if (error) {
 					console.log("AUTH", error);
-					return res.status(400).json({ errors: [ { type: "other", msg: "invalidAuth" } ] });
+					return res.status(401).json({ errors: [ { type: "other", msg: "invalidAuth" } ] });
 				}
 				req.decoded = decoded;
 			});
 		} else {
-			return res.status(400).json({ errors: [ { type: "other", msg: "missingAuth" } ] });
+			return res.status(401).json({ errors: [ { type: "other", msg: "missingAuth" } ] });
 		}
 		if (!req.decoded) {
 			return 0;
