@@ -82,7 +82,6 @@ const checkGameRegister = () => checkSchema({
 						return Promise.reject(process.env.UNAVAILABLEDATA);
 					}
 					if (!Number.isInteger(move.hauteur) || !Number.isInteger(move.xPos) || !Number.isInteger(move.yPos)) {
-						console.log("la");
 						return Promise.reject(process.env.UNAVAILABLEDATA);
 					}
 				});
@@ -109,6 +108,8 @@ const gameRegisterController = (req, res) => {
 		const game = new Game({
 			loginPlayerWhite, loginPlayerBlack, winner, winnerScore, loserScore, moveList: JSON.parse(moveList)
 		});
+
+		console.log(game);
 
 		User.findOneAndUpdate({ login: winner }, { $inc: { nbParties: 1, nbVictoires: 1, score: winnerScore } }, (e) => {
 			if (e) {

@@ -32,10 +32,10 @@ const gameSchema = mongoose.Schema({
 		default: Date.now()
 	},
 	moveList: [ {
-		pawnColor: String,
-		pawnPositionX: Number,
-		pawnPositionY: Number,
-		pawnHeight: Number
+		couleurPion: String,
+		xPos: Number,
+		yPos: Number,
+		hauteur: Number
 	} ]
 });
 
