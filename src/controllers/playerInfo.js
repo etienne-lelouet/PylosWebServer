@@ -21,9 +21,9 @@ const playerInfoController = (req, res) => {
 		if (!req.decoded) {
 			return 0;
 		}
-		console.log(req.params);
-		if (req.params.user) {
-			req.decoded.login = req.params.user;
+		console.log(req.query);
+		if (req.query.user) {
+			req.decoded.login = req.query.user;
 		}
 		User.findOne(({ login: req.decoded.login }), (err, user) => {
 			if (err) {
