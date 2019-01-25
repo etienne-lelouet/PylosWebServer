@@ -21,6 +21,9 @@ const playerInfoController = (req, res) => {
 		if (!req.decoded) {
 			return 0;
 		}
+		if (req.params.user && req.params.user.length > 3) {
+			req.decoded.login = req.params.user;
+		}
 		User.findOne(({ login: req.decoded.login }), (err, user) => {
 			if (err) {
 				return res.status(500).json({
