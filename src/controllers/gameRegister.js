@@ -1,6 +1,7 @@
 const { checkSchema, validationResult } = require("express-validator/check");
 const mongoose = require("mongoose");
 const User = require("../model/User");
+const Game = require("../model/Game");
 
 const checkGameRegister = () => checkSchema({
 
@@ -53,7 +54,7 @@ const checkGameRegister = () => checkSchema({
 		custom: {
 			options: (value) => {
 				if (!value) {
-					return Promise.reject(process.env.INVALIDLOGIN);
+					return Promise.reject(process.env.UNAVAILABLEDATA);
 				}
 				return true;
 			}
@@ -64,7 +65,7 @@ const checkGameRegister = () => checkSchema({
 		custom: {
 			options: (value) => {
 				if (!value) {
-					return Promise.reject(process.env.INVALIDLOGIN);
+					return Promise.reject(process.env.UNAVAILABLEDATA);
 				}
 				return true;
 			}
@@ -74,11 +75,18 @@ const checkGameRegister = () => checkSchema({
 		in: [ "body" ],
 		custom: {
 			options: (value) => {
+				const authorizedValues = [ "white", "black" ];
 				const valueAsArray = JSON.parse(value);
-				console.log(valueAsArray);
 				valueAsArray.forEach((move) => {
-					console.log(move);
+					if (!authorizedValues.includes(move.couleurPion)) {
+						return Promise.reject(process.env.UNAVAILABLEDATA);
+					}
+					if (!Number.isInteger(move.hauteur) || !Number.isInteger(move.xPos) || !Number.isInteger(move.yPos)) {
+						console.log("la");
+						return Promise.reject(process.env.UNAVAILABLEDATA);
+					}
 				});
+				return true;
 			}
 		}
 	}
@@ -95,8 +103,57 @@ const gameRegisterController = (req, res) => {
 				errors: errors.array().map(({ param, msg }) => ({ type: "param", param, msg }))
 			});
 		}
+		const {
+			loginPlayerWhite, loginPlayerBlack, winner, winnerScore, loserScore, moveList
+		} = req.body;
+		const game = new Game({
+			loginPlayerWhite, loginPlayerBlack, winner, winnerScore, loserScore, moveList: JSON.parse(moveList)
+		});
+
+		User.findOneAndUpdate({ login: winner }, { $inc: { nbParties: 1, nbVictoires: 1, score: winnerScore } }, (e) => {
+			if (e) {
+				return res.status(500).json({
+					errors: [ {
+						type: "other",
+						msg: "registerFailed"
+					} ]
+				});
+			}
+		});
+		let loser;
+
+		if (winner === loginPlayerWhite) {
+			loser = loginPlayerBlack;
+		} else {
+			loser = loginPlayerWhite;
+		}
+
+		User.findOneAndUpdate({ login: loser }, { $inc: { nbParties: 1, nbDefaites: 1, score: -loserScore } }, (e) => {
+			if (e) {
+				return res.status(500).json({
+					errors: [ {
+						type: "other",
+						msg: "registerFailed"
+					} ]
+				});
+			}
+		});
+
+		game.save((e) => {
+			if (e) {
+				return res.status(500).json({
+					errors: [ {
+						type: "other",
+						msg: "registerFailed"
+					} ]
+				});
+			}
+			return res.status(200).json({
+			});
+		});
 	} catch (e) {
 		console.log(e);
+		return res.status(500).json({ errors: [ { type: "other", msg: "unavailableData" } ] });
 	}
 };
 
