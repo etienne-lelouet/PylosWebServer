@@ -4,7 +4,17 @@ const User = require("../model/User");
 const Game = require("../model/Game");
 
 const checkGameRegister = () => checkSchema({
-
+	authorization: {
+		in: [ "headers" ],
+		custom: {
+			options: (value) => {
+				if (value !== process.env.SERVERSECRET) {
+					return Promise.reject(process.env.UNAVAILABLEDATA);
+				}
+				return true;
+			}
+		}
+	},
 	loginPlayerWhite: {
 		in: [ "body" ],
 		custom: {
