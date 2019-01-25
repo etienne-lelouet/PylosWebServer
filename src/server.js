@@ -19,8 +19,13 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-	res.header("Access-Control-Allow-Headers", "Content-Type");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Content-Length, X-Requested-With");
+	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+	res.header("Access-Control-Allow-Credentials", true);
+	if (req.method === "OPTIONS") {
+		res.status(200).send();
+		return;
+	}
 	next();
 });
 mongoose.connect(process.env.BDDCONNSTRING, { useNewUrlParser: true }).catch((e) => {
