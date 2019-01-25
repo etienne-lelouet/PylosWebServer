@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema({
 	username: {
 		type: String,
 		trim: true,
-		require: true
+		required: true
 	},
 	dateCreation: {
 		type: Date,
@@ -25,19 +25,19 @@ const userSchema = mongoose.Schema({
 	},
 	score: {
 		type: Number,
-		required: true
+		default: 0
 	},
 	nbParties: {
 		type: Number,
-		requried: true
+		default: 0
 	},
 	nbVictoires: {
 		type: Number,
-		requried: true
+		default: 0
 	},
 	nbDefaites: {
 		type: Number,
-		requried: true
+		default: 0
 	}
 });
 
